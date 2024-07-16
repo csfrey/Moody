@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} bg-orange-50`}>
+        <div className="max-w-3xl mx-auto text-slate-50">
+          <header className="p-6 border-b flex justify-between rounded-bl-lg rounded-br-lg bg-gradient-to-r from-pink-400 to-pink-500">
+            <Link className="text-3xl font-bold" href="/">
+              Moody
+            </Link>
+            <div className="w-1/4 flex justify-evenly mx-auto">
+              <Link className="m-auto" href="/graph">
+                graph
+              </Link>
+              <Link className="m-auto" href="/journal">
+                journal
+              </Link>
+            </div>
+            <button className="bg-blue-400 hover:bg-blue-500 py-2 px-4 rounded">
+              Login
+            </button>
+          </header>
+          <main>{children}</main>
+        </div>
+      </body>
     </html>
   );
 }
