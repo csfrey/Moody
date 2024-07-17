@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import AuthProvider from "@/app/context/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,7 +52,9 @@ export default async function RootLayout({
               </Link>
             )}
           </header>
-          <main>{children}</main>
+          <AuthProvider>
+            <main className="h-fit">{children}</main>
+          </AuthProvider>
         </div>
       </body>
     </html>
