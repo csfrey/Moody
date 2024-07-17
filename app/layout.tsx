@@ -53,7 +53,14 @@ export default async function RootLayout({
             )}
           </header>
           <AuthProvider>
-            <main className="h-fit">{children}</main>
+            <main className="h-fit">
+              {session ? (
+                <div className="p-4 text-slate-700 text-2xl">
+                  Hi {session?.user?.name}!
+                </div>
+              ) : null}
+              {children}
+            </main>
           </AuthProvider>
         </div>
       </body>

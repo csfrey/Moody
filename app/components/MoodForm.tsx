@@ -51,9 +51,6 @@ const MoodForm = () => {
 
   return (
     <div>
-      <div className="p-4 text-slate-700 text-2xl">
-        Hi {session?.user?.name}!
-      </div>
       <div className="w-full h-auto p-4 bg-pink-300 rounded-lg">
         <div className="w-full flex justify-between">
           <div>How are you feeling today?</div>
