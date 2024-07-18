@@ -3,22 +3,16 @@
 import { useEffect, useState } from "react";
 import { MoodDocument } from "../models/Mood";
 import { useSession } from "next-auth/react";
+import { refreshMoods, useMoods } from "@/app/lib/moods";
 
 const GraphPage = () => {
   const { data: session } = useSession();
-
-  const [moods, setMoods] = useState<Array<MoodDocument>>([]);
+  const { moods, isLoading, error } = useMoods();
 
   useEffect(() => {
-    const fetchMoods = async () => {
-      const response = await fetch(`/api/moods`);
-      const data = await response.json();
-
-      setMoods(data);
-    };
-
-    if (session?.user) fetchMoods();
-  });
+    refreshMoods();
+    console.log(moods);
+  }, [session?.user]);
 
   const cards = moods
     .filter((item) => item.remarks && item.remarks !== "")

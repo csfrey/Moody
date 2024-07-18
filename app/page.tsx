@@ -1,10 +1,9 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import MoodForm from "@/app/components/MoodForm";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
+import MoodForm from "@/app/components/MoodForm";
 
 export default async function Home() {
-  let session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
   if (session) {
     return <MoodForm />;
