@@ -1,39 +1,39 @@
 import { MoodDocument } from "@/app/models/Mood";
 import axios from "axios";
-import { createReduxModule } from "hooks-for-redux";
+// import { createReduxModule } from "hooks-for-redux";
 
-export type MoodStore = {
-  moods: Array<MoodDocument>;
-  isLoading: boolean;
-  error: any;
-};
+// export type MoodStore = {
+//   moods: Array<MoodDocument>;
+//   isLoading: boolean;
+//   error: any;
+// };
 
-const defaultState: MoodStore = {
-  moods: [],
-  isLoading: false,
-  error: null,
-};
+// const defaultState: MoodStore = {
+//   moods: [],
+//   isLoading: false,
+//   error: null,
+// };
 
-export const [
-  useMoods,
-  { setMoods, startLoading, stopLoading, setError },
-  store,
-] = createReduxModule("moods", defaultState, {
-  setMoods: (state, moods: Array<MoodDocument>) =>
-    Object.assign(state, { moods }),
-  startLoading: (state) => Object.assign(state, { isLoading: true }),
-  stopLoading: (state) => Object.assign(state, { isLoading: false }),
-  setError: (state, error: any) => Object.assign(state, { error }),
-});
+// export const [
+//   useMoods,
+//   { setMoods, startLoading, stopLoading, setError },
+//   store,
+// ] = createReduxModule("moods", defaultState, {
+//   setMoods: (state, moods: Array<MoodDocument>) =>
+//     Object.assign(state, { moods }),
+//   startLoading: (state) => Object.assign(state, { isLoading: true }),
+//   stopLoading: (state) => Object.assign(state, { isLoading: false }),
+//   setError: (state, error: any) => Object.assign(state, { error }),
+// });
 
-export async function refreshMoods() {
-  Promise.resolve()
-    .then(startLoading)
-    .then(getMoods)
-    .then(setMoods)
-    .catch(setError)
-    .finally(stopLoading);
-}
+// export async function refreshMoods() {
+//   Promise.resolve()
+//     .then(startLoading)
+//     .then(getMoods)
+//     .then(setMoods)
+//     .catch(setError)
+//     .finally(stopLoading);
+// }
 
 export async function getMoods() {
   try {

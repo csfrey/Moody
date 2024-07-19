@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import AuthProvider from "@/app/context/AuthProvider";
-import ReduxProvider from "@/app/context/ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +22,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-orange-50`}>
+      <body className={`${inter.className} bg-pink-50`}>
         <div className="max-w-3xl mx-auto text-slate-50">
           <header className="p-6 border-b flex justify-between rounded-bl-lg rounded-br-lg bg-gradient-to-r from-pink-400 to-pink-500">
             <Link className="text-3xl font-bold" href="/">
@@ -54,16 +53,14 @@ export default async function RootLayout({
             )}
           </header>
           <AuthProvider>
-            <ReduxProvider>
-              <main className="h-fit">
-                {session ? (
-                  <div className="p-4 text-slate-700 text-2xl">
-                    Hi {session?.user?.name}!
-                  </div>
-                ) : null}
-                {children}
-              </main>
-            </ReduxProvider>
+            <main className="h-fit">
+              {session ? (
+                <div className="p-4 text-slate-700 text-2xl">
+                  Hi {session?.user?.name}!
+                </div>
+              ) : null}
+              {children}
+            </main>
           </AuthProvider>
         </div>
       </body>

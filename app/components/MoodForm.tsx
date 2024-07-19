@@ -5,9 +5,10 @@ import { styled, TextareaAutosize } from "@mui/material";
 import Slider from "@mui/material/Slider";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useMoods, refreshMoods, submitMood } from "@/app/lib/moods";
+import { submitMood, getMoods } from "@/app/lib/moods";
 import React from "react";
 import Link from "next/link";
+import { HashLoader } from "react-spinners";
 
 const PrettoSlider = styled(Slider)({
   color: "#60a5fa",
@@ -53,11 +54,35 @@ const MoodForm = () => {
   const [rating, setRating] = useState(50);
   const [remarks, setRemarks] = useState("");
   const [doEntry, setDoEntry] = useState(true);
-  const { moods, isLoading, error } = useMoods();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
+  const [moods, setMoods] = useState<Array<MoodDocument>>([]);
 
   useEffect(() => {
-    refreshMoods();
-  }, [session?.user]);
+    if (session) {
+      Promise.resolve()
+        .then(() => setLoading(true))
+        .then(getMoods)
+        .then((moods) => {
+          const today = new Date();
+          const d = moods.find((mood: MoodDocument) => {
+            let { createdAt } = mood;
+            createdAt = new Date(createdAt);
+            return (
+              createdAt.getDate() === today.getDate() &&
+              createdAt.getMonth() === today.getMonth() &&
+              createdAt.getFullYear() === today.getFullYear()
+            );
+          });
+          if (!!d) {
+            setDoEntry(false);
+          }
+          setMoods(moods);
+        })
+        .catch(setError)
+        .finally(() => setLoading(false));
+    }
+  }, [session]);
 
   async function handleSubmit() {
     setDoEntry(false);
@@ -132,9 +157,15 @@ const MoodForm = () => {
 
   return (
     <div>
-      <div className="w-full h-auto p-4 bg-pink-300 rounded-lg">
-        {doEntry ? formContent : enterAnotherPrompt}
-      </div>
+      {loading ? (
+        <div className="w-full flex justify-evenly">
+          <HashLoader color="#f9a8d4" />
+        </div>
+      ) : (
+        <div className="w-full h-auto p-4 bg-pink-300 rounded-lg">
+          {doEntry ? formContent : enterAnotherPrompt}
+        </div>
+      )}
     </div>
   );
 };
